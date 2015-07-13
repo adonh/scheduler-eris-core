@@ -4,6 +4,8 @@ name := "eris-core"
 
 scalaVersion := "2.10.5"
 
+publishArtifact in Test := true
+
 libraryDependencies ++= Seq(
   "com.netflix.astyanax" % "astyanax-cassandra" % "3.6.0",
   "com.netflix.astyanax" % "astyanax-core" % "3.6.0",
