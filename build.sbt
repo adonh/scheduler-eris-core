@@ -2,7 +2,7 @@ organization := "com.pagerduty"
 
 name := "eris-core"
 
-scalaVersion := "2.10.5"
+scalaVersion := "2.10.4"
 
 publishArtifact in Test := true
 
