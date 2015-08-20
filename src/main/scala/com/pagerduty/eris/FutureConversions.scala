@@ -7,7 +7,7 @@ import scala.util.control.NonFatal
 
 
 /**
- * Provides a convenient conversion between Futures used in Astyanax and Scala futures.
+ * Provides a convenient conversion between Futures used in Astyanax and Scala Futures.
  */
 object FutureConversions {
 
