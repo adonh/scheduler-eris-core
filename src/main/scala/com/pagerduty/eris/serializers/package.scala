@@ -157,23 +157,23 @@ package serializers {
    * BigDecimalSerializers is an adapter for scala.BigDecimal type.
    */
   sealed class BigDecimalSerializer extends ProxySerializer[BigDecimal, java.math.BigDecimal](
-    extract = _.bigDecimal,
-    repackage = new BigDecimal(_),
+    toRepresentation = _.bigDecimal,
+    fromRepresentation = new BigDecimal(_),
     serializer = a.BigDecimalSerializer.get)
 
   /**
    * BigIntSerializer is an adapter for scala.BigInt type.
    */
   sealed class BigIntSerializer extends ProxySerializer[BigInt, java.math.BigInteger](
-    extract = _.bigInteger,
-    repackage = new BigInt(_),
+    toRepresentation = _.bigInteger,
+    fromRepresentation = new BigInt(_),
     serializer = a.BigIntegerSerializer.get)
 
   /**
    * TimeUuidSerializer is an adapter for eris.TimeUuid type.
    */
   sealed class TimeUuidSerializer extends ProxySerializer[TimeUuid, java.util.UUID](
-    extract = _.value,
-    repackage = TimeUuid(_),
+    toRepresentation = _.value,
+    fromRepresentation = TimeUuid(_),
     serializer = a.TimeUUIDSerializer.get)
 }
