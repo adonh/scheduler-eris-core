@@ -13,68 +13,44 @@ import com.netflix.astyanax.{AstyanaxContext, Cluster}
  *
  * The following example will help you setup connection to a locally running cassandra instance:
  * {{{
- * val clusterCtx = new ClusterCtx {
- *   val hosts: String = "localhost:9160"
- *   val clusterName: String = "CassCluster"
- *
- *   val astyanaxConfig = astyanaxConfigBuilder()
- *     .setDiscoveryType(NodeDiscoveryType.RING_DESCRIBE)
- *
- *   val connectionPoolConfig = connectionPoolConfigBuilder()
- *     .setPort(9160)
- *     .setMaxConnsPerHost(10)
- *
- *   val connectionPoolMonitor = new CountingConnectionPoolMonitor()
- * }
+ * val clusterCtx = new ClusterCtx(
+ *   clusterName = "CassCluster",
+ *   astyanaxConfig = new AstyanaxConfigurationImpl()
+ *     .setDiscoveryType(NodeDiscoveryType.RING_DESCRIBE),
+ *   connectionPoolConfig = new ConnectionPoolConfigurationImpl("CassConnectionPool")
+ *     .setSeeds("localhost:9160")
+ *     .setPort(9160),
+ *   connectionPoolMonitor = new CountingConnectionPoolMonitor()
+ * )
  * val cluster = clusterCtx.cluster
  * }}}
  */
-trait ClusterCtx {
+class ClusterCtx(
+    /**
+     * Cluster name for logging and reporting purposes.
+     */
+    val clusterName: String,
 
-  val clusterName: String
+    /**
+     * See:
+     * https://github.com/Netflix/astyanax/blob/master/astyanax-cassandra/src/main/java/com/netflix/astyanax/AstyanaxConfiguration.java
+     */
+    protected val astyanaxConfig: AstyanaxConfigurationImpl,
 
-  /**
-   * Comma-delimited list of host:port pairs.
-   */
-  val hosts: String
+    /**
+     * See:
+     * https://github.com/Netflix/astyanax/blob/master/astyanax-core/src/main/java/com/netflix/astyanax/connectionpool/ConnectionPoolConfiguration.java
+     */
+    protected val connectionPoolConfig: ConnectionPoolConfigurationImpl,
 
-  /**
-   * See:
-   * https://github.com/Netflix/astyanax/blob/master/astyanax-cassandra/src/main/java/com/netflix/astyanax/AstyanaxConfiguration.java
-   */
-  val astyanaxConfig: AstyanaxConfigurationImpl
-
-  /**
-   * See:
-   * https://github.com/Netflix/astyanax/blob/master/astyanax-core/src/main/java/com/netflix/astyanax/connectionpool/ConnectionPoolConfiguration.java
-   */
-  val connectionPoolConfig: ConnectionPoolConfigurationImpl
-
-  /**
-   * Astyanax connection pool monitor. For example: {{{new CountingConnectionPoolMonitor()}}}.
-   */
-  val connectionPoolMonitor: ConnectionPoolMonitor
-
-  /**
-   * Creates a new Astyanax config builder that can be used a starting point
-   * for the builder pattern.
-   *
-   * @return a new Astyanax config builder
-   */
-  protected def astyanaxConfigBuilder(): AstyanaxConfigurationImpl = {
-    new AstyanaxConfigurationImpl()
-  }
-
-  /**
-   * Creates a new connection pool builder that can be used a starting point
-   * for the builder pattern.
-   *
-   * @return a new connection pool builder
-   */
-  protected def connectionPoolConfigBuilder(): ConnectionPoolConfigurationImpl = {
-    new ConnectionPoolConfigurationImpl(clusterName + "ConnectionPool")
-  }
-
+    /**
+     * Astyanax connection pool monitor. For example:
+     * {{{
+     *   new CountingConnectionPoolMonitor()
+     * }}}.
+     */
+    protected val connectionPoolMonitor: ConnectionPoolMonitor)
+{
   /**
    * Combines all the configs to create AstyanaxContext. Can be overridden for
    * further customization.
@@ -83,7 +59,7 @@ trait ClusterCtx {
     new AstyanaxContext.Builder()
       .forCluster(clusterName)
       .withAstyanaxConfiguration(astyanaxConfig)
-      .withConnectionPoolConfiguration(connectionPoolConfig.setSeeds(hosts))
+      .withConnectionPoolConfiguration(connectionPoolConfig)
       .withConnectionPoolMonitor(connectionPoolMonitor)
       .buildCluster(ThriftFamilyFactory.getInstance)
   }
@@ -101,7 +77,7 @@ trait ClusterCtx {
   }
 
   /**
-   * Gracefully shuts down all the thraed pools.
+   * Gracefully shuts down all the thread pools.
    */
   def shutdown(): Unit = {
     astyanaxCtx.shutdown()

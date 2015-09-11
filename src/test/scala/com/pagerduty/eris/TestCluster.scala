@@ -1,26 +1,19 @@
 package com.pagerduty.eris
 
 import com.netflix.astyanax.connectionpool.NodeDiscoveryType
-import com.netflix.astyanax.connectionpool.impl.CountingConnectionPoolMonitor
+import com.netflix.astyanax.connectionpool.impl.{ConnectionPoolConfigurationImpl, CountingConnectionPoolMonitor}
+import com.netflix.astyanax.impl.AstyanaxConfigurationImpl
 
 
-object TestCluster {
-
-  lazy val cluster = {
-    val clusterCtx = new ClusterCtx {
-      lazy val hosts: String = "localhost:9160"
-      lazy val clusterName: String = "TestCluster"
-
-      lazy val astyanaxConfig = astyanaxConfigBuilder()
-        .setDiscoveryType(NodeDiscoveryType.RING_DESCRIBE)
-
-      lazy val connectionPoolConfig = connectionPoolConfigBuilder()
-        .setPort(9160)
-        .setMaxConnsPerHost(10)
-
-      lazy val connectionPoolMonitor = new CountingConnectionPoolMonitor()
-    }
-
-    clusterCtx.cluster
-  }
-}
+/**
+ * Cluster context used for testing.
+ */
+object TestClusterCtx extends ClusterCtx(
+    clusterName = "CassCluster",
+    astyanaxConfig = new AstyanaxConfigurationImpl()
+      .setDiscoveryType(NodeDiscoveryType.RING_DESCRIBE),
+    connectionPoolConfig = new ConnectionPoolConfigurationImpl("CassConnectionPool")
+      .setSeeds("localhost:9160")
+      .setPort(9160),
+    connectionPoolMonitor = new CountingConnectionPoolMonitor()
+  )
