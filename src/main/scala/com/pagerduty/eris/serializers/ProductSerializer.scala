@@ -10,10 +10,10 @@ import scala.collection.JavaConversions._
 
 
 /**
- * Allows to serialize tuples. Do not extend this class directly, use ImplicitSerializer instead:
+ * Allows to serialize tuples. Do not extend this class directly, use InferredSerializer instead:
  * {{{
  * import com.pagerduty.eris.serializers.implicits._
- * class MyTupleSerializer extends ImplicitSerializer[(Int, (String, Time))]
+ * class MyTupleSerializer extends InferredSerializer[(Int, (String, Time))]
  * }}}
  */
 class ProductSerializer[P <: Product](
