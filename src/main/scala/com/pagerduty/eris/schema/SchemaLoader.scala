@@ -2,7 +2,7 @@ package com.pagerduty.eris.schema
 
 import com.netflix.astyanax.Cluster
 import com.netflix.astyanax.ddl.ColumnFamilyDefinition
-import java.util.logging.{Level, Logger}
+import org.slf4j.LoggerFactory
 import scala.collection.JavaConversions._
 import scala.util.control.NonFatal
 
@@ -19,7 +19,8 @@ class SchemaLoader(
     val replicationStrategies: Map[String, ReplicationStrategy] =
       Map.empty.withDefaultValue(SimpleStrategy(1)))
 {
-  private val log = Logger.getLogger(getClass.getName)
+  private val log = LoggerFactory.getLogger(classOf[SchemaLoader])
+  println('XXX1, System.identityHashCode(log), log.asInstanceOf[ch.qos.logback.classic.Logger].getEffectiveLevel)
 
   private case class KeyspaceSettings(
     name: String,
@@ -37,7 +38,7 @@ class SchemaLoader(
    */
   def loadSchema(): Unit = {
     for (keyspace <- keyspaces) {
-      log.warning(s"Loading schema for keyspace '${keyspace.name}'.")
+      log.warn(s"Loading schema for keyspace '${keyspace.name}'.")
       val keyspaceDef = cluster.makeKeyspaceDefinition()
         .setName(keyspace.name)
         .setStrategyClass(keyspace.replicationStrategy.strategyClass)
@@ -71,14 +72,15 @@ object SchemaLoader {
    * @param keyspaceName keyspace name
    */
   def dropKeyspace(cluster: Cluster, keyspaceName: String): Unit = {
-    val log = Logger.getLogger(classOf[SchemaLoader].getName)
-    log.warning(s"Dropping keyspace '$keyspaceName'.")
+    val log = LoggerFactory.getLogger(classOf[SchemaLoader])
+    println('XXX2, System.identityHashCode(log), log.asInstanceOf[ch.qos.logback.classic.Logger].getEffectiveLevel)
+    log.warn(s"Dropping keyspace '$keyspaceName'.")
     try {
       cluster.dropKeyspace(keyspaceName)
     }
     catch {
       case NonFatal(_) =>
-        log.warning( s"Unable to drop keyspace '$keyspaceName'.")
+        log.warn( s"Unable to drop keyspace '$keyspaceName'.")
     }
   }
 
