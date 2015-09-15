@@ -1,6 +1,5 @@
 package com.pagerduty.eris
 
-import java.util.logging.{Level, Logger}
 import com.netflix.astyanax.{Keyspace, Cluster}
 import com.netflix.astyanax.ddl.ColumnFamilyDefinition
 import com.pagerduty.eris.schema.{NetworkTopologyStrategy, SimpleStrategy, ReplicationStrategy, SchemaLoader}
@@ -11,8 +10,7 @@ import scala.collection.JavaConversions._
 
 
 class SchemaLoaderSpec extends FreeSpec with Matchers with MockFactory {
-  Logger.getLogger("com.pagerduty.eris.schema.SchemaLoader").setLevel(Level.OFF)
-
+  TestLoggingConfig.setup()
   val tpePref = "org.apache.cassandra.db.marshal"
 
   "SchemaLoader should" - {
