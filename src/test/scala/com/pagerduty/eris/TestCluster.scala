@@ -4,6 +4,7 @@ import com.netflix.astyanax.connectionpool.NodeDiscoveryType
 import com.netflix.astyanax.connectionpool.impl.{
   ConnectionPoolMBeanManager, ConnectionPoolConfigurationImpl, CountingConnectionPoolMonitor}
 import com.netflix.astyanax.impl.AstyanaxConfigurationImpl
+import com.netflix.astyanax.thrift.ThriftKeyspaceImpl
 import com.pagerduty.eris.schema.SchemaLoader
 import ch.qos.logback.classic.{Level, Logger}
 import org.slf4j.LoggerFactory
@@ -34,5 +35,6 @@ object TestLoggingConfig {
     LoggerFactory.getLogger(classOf[SchemaLoader].getName).setLevel(Level.ERROR)
     LoggerFactory.getLogger(classOf[CountingConnectionPoolMonitor].getName).setLevel(Level.WARN)
     LoggerFactory.getLogger(classOf[ConnectionPoolMBeanManager].getName).setLevel(Level.WARN)
+    LoggerFactory.getLogger(classOf[ThriftKeyspaceImpl].getName).setLevel(Level.WARN)
   }
 }
