@@ -10,6 +10,7 @@ import scala.collection.JavaConversions._
 
 
 class SchemaLoaderSpec extends FreeSpec with Matchers with MockFactory {
+  TestLoggingConfig.setup()
   val tpePref = "org.apache.cassandra.db.marshal"
 
   "SchemaLoader should" - {

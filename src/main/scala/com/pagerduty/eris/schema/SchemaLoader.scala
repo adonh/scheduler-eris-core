@@ -20,7 +20,6 @@ class SchemaLoader(
       Map.empty.withDefaultValue(SimpleStrategy(1)))
 {
   private val log = LoggerFactory.getLogger(classOf[SchemaLoader])
-  println('XXX1, System.identityHashCode(log), log.asInstanceOf[ch.qos.logback.classic.Logger].getEffectiveLevel)
 
   private case class KeyspaceSettings(
     name: String,
@@ -73,7 +72,6 @@ object SchemaLoader {
    */
   def dropKeyspace(cluster: Cluster, keyspaceName: String): Unit = {
     val log = LoggerFactory.getLogger(classOf[SchemaLoader])
-    println('XXX2, System.identityHashCode(log), log.asInstanceOf[ch.qos.logback.classic.Logger].getEffectiveLevel)
     log.warn(s"Dropping keyspace '$keyspaceName'.")
     try {
       cluster.dropKeyspace(keyspaceName)

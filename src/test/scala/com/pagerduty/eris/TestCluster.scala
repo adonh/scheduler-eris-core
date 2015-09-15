@@ -22,9 +22,17 @@ object TestClusterCtx extends ClusterCtx(
     connectionPoolMonitor = new CountingConnectionPoolMonitor()
   )
 {
-  // Removes noise from test logs.
-  implicit def asConcreteLogger(logger: org.slf4j.Logger) = logger.asInstanceOf[Logger]
-  LoggerFactory.getLogger(classOf[SchemaLoader].getName).setLevel(Level.ERROR)//XXX figure this out
-  LoggerFactory.getLogger(classOf[CountingConnectionPoolMonitor].getName).setLevel(Level.WARN)
-  LoggerFactory.getLogger(classOf[ConnectionPoolMBeanManager].getName).setLevel(Level.WARN)
+  TestLoggingConfig.setup()
+}
+
+object TestLoggingConfig {
+  /**
+   * Removes noise from test logs.
+   */
+  def setup(): Unit = {
+    implicit def asConcreteLogger(logger: org.slf4j.Logger) = logger.asInstanceOf[Logger]
+    LoggerFactory.getLogger(classOf[SchemaLoader].getName).setLevel(Level.ERROR)
+    LoggerFactory.getLogger(classOf[CountingConnectionPoolMonitor].getName).setLevel(Level.WARN)
+    LoggerFactory.getLogger(classOf[ConnectionPoolMBeanManager].getName).setLevel(Level.WARN)
+  }
 }
