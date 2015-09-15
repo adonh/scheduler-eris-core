@@ -1,12 +1,12 @@
 package com.pagerduty.eris
 
+import ch.qos.logback.classic.{Level, Logger}
 import com.netflix.astyanax.connectionpool.NodeDiscoveryType
 import com.netflix.astyanax.connectionpool.impl.{
   ConnectionPoolMBeanManager, ConnectionPoolConfigurationImpl, CountingConnectionPoolMonitor}
 import com.netflix.astyanax.impl.AstyanaxConfigurationImpl
 import com.netflix.astyanax.thrift.ThriftKeyspaceImpl
 import com.pagerduty.eris.schema.SchemaLoader
-import ch.qos.logback.classic.{Level, Logger}
 import org.slf4j.LoggerFactory
 
 
