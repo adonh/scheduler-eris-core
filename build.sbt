@@ -6,6 +6,12 @@ scalaVersion := "2.10.4"
 
 publishArtifact in Test := true
 
+// Logback should be configured per-project.
+mappings in (Test, packageBin) ~= { _.filterNot(_._2.endsWith("logback-test.xml")) }
+
+// Dependencies in this configuration are not exported.
+ivyConfigurations += config("transient").hide
+
 libraryDependencies ++= Seq(
   "com.netflix.astyanax" % "astyanax-cassandra" % "3.6.0" exclude("org.slf4j", "slf4j-log4j12"),
   "com.netflix.astyanax" % "astyanax-core" % "3.6.0" exclude("org.slf4j", "slf4j-log4j12"),
@@ -18,7 +24,7 @@ libraryDependencies ++= Seq(
   "org.slf4j" % "slf4j-api" % "1.7.12")
 
 libraryDependencies ++= Seq(
-  "ch.qos.logback" % "logback-classic" % "1.0.13",
+  "ch.qos.logback" % "logback-classic" % "1.0.13" % "transient",
   "org.scalatest" %% "scalatest" % "2.2.4" % Test,
   "org.scalamock" %% "scalamock-scalatest-support" % "3.2" % Test,
   "org.scalacheck" %% "scalacheck" % "1.12.2" % Test)

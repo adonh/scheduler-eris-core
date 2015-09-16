@@ -1,13 +1,9 @@
 package com.pagerduty.eris
 
-import ch.qos.logback.classic.{Level, Logger}
 import com.netflix.astyanax.connectionpool.NodeDiscoveryType
 import com.netflix.astyanax.connectionpool.impl.{
-  ConnectionPoolMBeanManager, ConnectionPoolConfigurationImpl, CountingConnectionPoolMonitor}
+  ConnectionPoolConfigurationImpl, CountingConnectionPoolMonitor}
 import com.netflix.astyanax.impl.AstyanaxConfigurationImpl
-import com.netflix.astyanax.thrift.ThriftKeyspaceImpl
-import com.pagerduty.eris.schema.SchemaLoader
-import org.slf4j.LoggerFactory
 
 
 /**
@@ -22,19 +18,3 @@ object TestClusterCtx extends ClusterCtx(
       .setPort(9160),
     connectionPoolMonitor = new CountingConnectionPoolMonitor()
   )
-{
-  TestLoggingConfig.setup()
-}
-
-object TestLoggingConfig {
-  /**
-   * Removes noise from test logs.
-   */
-  def setup(): Unit = {
-    implicit def asConcreteLogger(logger: org.slf4j.Logger) = logger.asInstanceOf[Logger]
-    LoggerFactory.getLogger(classOf[SchemaLoader].getName).setLevel(Level.ERROR)
-    LoggerFactory.getLogger(classOf[CountingConnectionPoolMonitor].getName).setLevel(Level.WARN)
-    LoggerFactory.getLogger(classOf[ConnectionPoolMBeanManager].getName).setLevel(Level.WARN)
-    LoggerFactory.getLogger(classOf[ThriftKeyspaceImpl].getName).setLevel(Level.WARN)
-  }
-}
