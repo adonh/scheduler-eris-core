@@ -6,7 +6,7 @@ scalaVersion := "2.10.4"
 
 publishArtifact in Test := true
 
-// Logback should be configured per-project.
+// Prevents logging configuration from being included in the test jar.
 mappings in (Test, packageBin) ~= { _.filterNot(_._2.endsWith("logback-test.xml")) }
 
 // Dependencies in this configuration are not exported.
