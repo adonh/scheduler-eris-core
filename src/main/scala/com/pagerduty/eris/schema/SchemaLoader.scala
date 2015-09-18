@@ -89,10 +89,12 @@ object SchemaLoader {
    * @param keyspaceName keyspace name
    * @return a formatted string describing selected keyspace properties
    */
-  def describeKeyspace(cluster: Cluster, keyspaceName: String): String = {
-    val description = cluster.describeKeyspace(keyspaceName).getProperties.toMap
-    keyspaceName + ":\n" + description.map { case (key, value) =>
-      s"  $key = $value"
-    }.toSeq.sorted.mkString("\n")
+  def describeKeyspace(cluster: Cluster, keyspaceName: String): Option[String] = {
+    Option(cluster.describeKeyspace(keyspaceName)).map { result =>
+      val description = result.getProperties.toMap
+      keyspaceName + ":\n" + description.map { case (key, value) =>
+        s"  $key = $value"
+      }.toSeq.sorted.mkString("\n")
+    }
   }
 }
