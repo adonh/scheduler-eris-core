@@ -11,6 +11,7 @@ mappings in (Test, packageBin) ~= { _.filterNot(_._2.endsWith("logback-test.xml"
 
 // Dependencies in this configuration are not exported.
 ivyConfigurations += config("transient").hide
+
 fullClasspath in Test ++= update.value.select(configurationFilter("transient"))
 
 libraryDependencies ++= Seq(
