@@ -32,5 +32,12 @@ class TimeUuidSpec extends FreeSpec with Matchers {
       val bytes = ByteBuffer.allocate(64 / 8).putLong(bound.value.getLeastSignificantBits).array()
       bytes.forall(_ == Byte.MinValue)
     }
+
+    "do bound checks" in {
+      val maxTimeStamp = 103072857660684L
+      val withMaxUnixEpochTimeStamp = TimeUuid("ffffe4c0-ffff-1fff-8080-808080808080")
+      TimeUuid.nonUniqueLowerBound(maxTimeStamp) shouldBe withMaxUnixEpochTimeStamp
+      intercept[IllegalArgumentException] { TimeUuid.nonUniqueLowerBound(maxTimeStamp + 1) }
+    }
   }
 }
