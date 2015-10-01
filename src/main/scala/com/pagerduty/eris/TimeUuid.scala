@@ -41,6 +41,7 @@ object TimeUuid {
    * Returns non unique id that can be used as a bound in ranged TimeUuid queries.
    */
   def nonUniqueLowerBound(timeStamp: Long) :TimeUuid = {
+    require(timeStamp >= MinTimeStamp, "'timeStamp' cannot be less than MinBound.timeStamp")
     require(timeStamp <= MaxTimeStamp, "'timeStamp' cannot be greater than MaxBound.timeStamp")
 
     // High bits of UUID.
@@ -69,5 +70,7 @@ object TimeUuid {
    * Maximum TimeUuid value, useful when doing ranged queries.
    */
   val MaxBound = TimeUuid("FFFFFFFF-FFFF-1FFF-7F7F-7F7F7F7F7F7F")
+
+  private val MinTimeStamp = MinBound.timeStamp
   private val MaxTimeStamp = MaxBound.timeStamp
 }

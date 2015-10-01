@@ -38,6 +38,11 @@ class TimeUuidSpec extends FreeSpec with Matchers {
       val withMaxUnixEpochTimeStamp = TimeUuid("ffffe4c0-ffff-1fff-8080-808080808080")
       TimeUuid.nonUniqueLowerBound(maxTimeStamp) shouldBe withMaxUnixEpochTimeStamp
       intercept[IllegalArgumentException] { TimeUuid.nonUniqueLowerBound(maxTimeStamp + 1) }
+
+      val minTimeStamp = TimeUuid.MinBound.timeStamp
+      val withMinUnixEpochTimeStamp = TimeUuid("00000000-0000-1000-8080-808080808080")
+      TimeUuid.nonUniqueLowerBound(minTimeStamp) shouldBe withMinUnixEpochTimeStamp
+      intercept[IllegalArgumentException] { TimeUuid.nonUniqueLowerBound(minTimeStamp - 1) }
     }
   }
 }
