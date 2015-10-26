@@ -6,7 +6,7 @@ This is an open source project!
 
 ## Description
 
-Eris-core is a high level Cassandra driver, that builds on the [Astyanax driver](https://github.com/Netflix/astyanax).
+Eris-core is a high level Cassandra driver that builds on the [Astyanax driver](https://github.com/Netflix/astyanax).
 
 Key features:
  * Serializers for basic Scala types
