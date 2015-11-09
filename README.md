@@ -2,8 +2,6 @@
 
 This is an open source project!
 
-[![Build Status](https://magnum.travis-ci.com/PagerDuty/???)](https://magnum.travis-ci.com/PagerDuty/eris-core)
-
 ## Description
 
 Eris-core is a high level Cassandra driver that builds on the [Astyanax driver](https://github.com/Netflix/astyanax).
@@ -17,7 +15,7 @@ Key features:
 
 ## Installation
 
-Make sure your project has a resolver for the PagerDuty artifactory repository, you can then add the dependency to your SBT build file:
+This library is published to the Sonatype OSS Maven Repository, which is configured in SBT by default. To add the dependency to your SBT build file:
 
 ```scala
 libraryDependencies += "com.pagerduty" %% "eris-core" % "1.4.1"
