@@ -1,4 +1,4 @@
-# eris-core [![Build Status](https://travis-ci.org/PagerDuty/eris-core.svg)](https://travis-ci.org/PagerDuty/eris-core)
+# eris-core [![Build Status](https://travis-ci.org/PagerDuty/eris-core.svg?branch=master)](https://travis-ci.org/PagerDuty/eris-core/builds)
 
 This is an open source project!
 
@@ -22,7 +22,7 @@ resolvers += "bintray-pagerduty-oss-maven" at "https://dl.bintray.com/pagerduty/
 
 Adding the dependency to your SBT build file:
 ```scala
-libraryDependencies += "com.pagerduty" %% "eris-core" % "1.5.0"
+libraryDependencies += "com.pagerduty" %% "eris-core" % "1.5.1"
 ```
 
 ## Contact
