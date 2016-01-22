@@ -1,4 +1,4 @@
-# eris-core [![Build Status](https://travis-ci.org/PagerDuty/eris-core.svg)](https://travis-ci.org/PagerDuty/eris-core)
+# eris-core [![Build Status](https://travis-ci.org/PagerDuty/eris-core.svg?branch=master)](https://travis-ci.org/PagerDuty/eris-core/builds)
 
 This is an open source project!
 
