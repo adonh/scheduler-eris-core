@@ -38,6 +38,7 @@ package com.pagerduty.eris
  */
 // May be extended to accommodate other column settings in the future.
 case class ColumnFamilySettings(
-    rowKeyValidatorOverride: Option[String] = None,
-    colNameValidatorOverride: Option[String] = None,
-    colValueValidatorOverride: Option[String] = None)
+  rowKeyValidatorOverride: Option[String] = None,
+  colNameValidatorOverride: Option[String] = None,
+  colValueValidatorOverride: Option[String] = None
+)

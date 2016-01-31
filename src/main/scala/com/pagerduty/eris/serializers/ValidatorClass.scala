@@ -29,7 +29,6 @@ package com.pagerduty.eris.serializers
 
 import com.netflix.astyanax.Serializer
 
-
 /**
  * Allows to specify validatorClass which is used to define Cassandra schema.
  */
@@ -43,7 +42,6 @@ trait ValidatorClass {
    */
   def validatorClass: String
 }
-
 
 object ValidatorClass {
   /**
