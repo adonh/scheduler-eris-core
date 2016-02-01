@@ -29,18 +29,16 @@ package com.pagerduty.eris.core
 
 import com.netflix.astyanax.Serializer
 import com.pagerduty.eris.TimeUuid
-import org.scalatest.{Matchers, FreeSpec}
+import org.scalatest.{ Matchers, FreeSpec }
 import com.pagerduty.eris.serializers._
-
 
 class SerializerSpec extends FreeSpec with Matchers {
   // Test product serialize via tuple implicits
   // Test inferred serializers
 
   def basicTestsForSerializers[T](
-      validatorClass: String, serializer: Serializer[T], testValues: T*
-    )(implicit implicitSerializer: Serializer[T])
-  : Unit = {
+    validatorClass: String, serializer: Serializer[T], testValues: T*
+  )(implicit implicitSerializer: Serializer[T]): Unit = {
     "have correct validatorClass" in {
       ValidatorClass(serializer) shouldBe validatorClass
     }
@@ -54,10 +52,9 @@ class SerializerSpec extends FreeSpec with Matchers {
   }
 
   def testDefaultSerializer[T](
-      name: String, validatorClass: String,
-      targetClasses: Seq[Class[_]], serializer: Serializer[T], testValues: T*
-    )(implicit implicitSerializer: Serializer[T])
-  : Unit = {
+    name: String, validatorClass: String,
+    targetClasses: Seq[Class[_]], serializer: Serializer[T], testValues: T*
+  )(implicit implicitSerializer: Serializer[T]): Unit = {
     s"$name serializer should" - {
       basicTestsForSerializers[T](validatorClass, serializer, testValues: _*)
 
@@ -71,9 +68,8 @@ class SerializerSpec extends FreeSpec with Matchers {
   }
 
   def testStringTupleSerializer[T](
-      n: Int, testValues: T*
-    )(implicit implicitSerializer: Serializer[T])
-  : Unit = {
+    n: Int, testValues: T*
+  )(implicit implicitSerializer: Serializer[T]): Unit = {
     val name = (0 until n).map(_ => "String").mkString("(", ", ", ")")
     val validatorClass = (0 until n).map(
       _ => "org.apache.cassandra.db.marshal.UTF8Type"
@@ -129,45 +125,66 @@ class SerializerSpec extends FreeSpec with Matchers {
       Seq(classOf[TimeUuid]), TimeUuidSerializer, TimeUuid(), TimeUuid())
   }
   "Product serializers should" - {
-    testStringTupleSerializer(2,
-      ("v1", "v2"))
+    testStringTupleSerializer(
+      2,
+      ("v1", "v2")
+    )
 
-    testStringTupleSerializer(3,
-      ("v1", "v2", "v3"))
+    testStringTupleSerializer(
+      3,
+      ("v1", "v2", "v3")
+    )
 
-    testStringTupleSerializer(4
-      , ("v1", "v2", "v3", "v4"))
+    testStringTupleSerializer(4, ("v1", "v2", "v3", "v4"))
 
-    testStringTupleSerializer(5,
-      ("v1", "v2", "v3", "v4", "v5"))
+    testStringTupleSerializer(
+      5,
+      ("v1", "v2", "v3", "v4", "v5")
+    )
 
-    testStringTupleSerializer(6,
-      ("v1", "v2", "v3", "v4", "v5", "v6"))
+    testStringTupleSerializer(
+      6,
+      ("v1", "v2", "v3", "v4", "v5", "v6")
+    )
 
-    testStringTupleSerializer(7,
-      ("v1", "v2", "v3", "v4", "v5", "v6", "v7"))
+    testStringTupleSerializer(
+      7,
+      ("v1", "v2", "v3", "v4", "v5", "v6", "v7")
+    )
 
-    testStringTupleSerializer(8,
-      ("v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8"))
+    testStringTupleSerializer(
+      8,
+      ("v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8")
+    )
 
-    testStringTupleSerializer(9,
-      ("v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8", "v9"))
+    testStringTupleSerializer(
+      9,
+      ("v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8", "v9")
+    )
 
-    testStringTupleSerializer(10,
-      ("v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8", "v9", "v10"))
+    testStringTupleSerializer(
+      10,
+      ("v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8", "v9", "v10")
+    )
 
-    testStringTupleSerializer(11,
-      ("v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8", "v9", "v10", "v11"))
+    testStringTupleSerializer(
+      11,
+      ("v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8", "v9", "v10", "v11")
+    )
 
-    testStringTupleSerializer(12,
-      ("v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8", "v9", "v10", "v11", "v12"))
+    testStringTupleSerializer(
+      12,
+      ("v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8", "v9", "v10", "v11", "v12")
+    )
   }
 
   "Inferred serializer should" - {
     class TupleIntStringSerializer extends InferredSerializer[(Int, String)]
     val t1 = "org.apache.cassandra.db.marshal.Int32Type"
     val t2 = "org.apache.cassandra.db.marshal.UTF8Type"
-    basicTestsForSerializers(s"CompositeType($t1,$t2)",
-      new TupleIntStringSerializer, (1, "v1"), (2, "v2"))
+    basicTestsForSerializers(
+      s"CompositeType($t1,$t2)",
+      new TupleIntStringSerializer, (1, "v1"), (2, "v2")
+    )
   }
 }

@@ -27,14 +27,13 @@
 
 package com.pagerduty.eris
 
-import com.netflix.astyanax.{Keyspace, Cluster}
+import com.netflix.astyanax.{ Keyspace, Cluster }
 import com.netflix.astyanax.ddl.ColumnFamilyDefinition
-import com.pagerduty.eris.schema.{NetworkTopologyStrategy, SimpleStrategy, ReplicationStrategy, SchemaLoader}
+import com.pagerduty.eris.schema.{ NetworkTopologyStrategy, SimpleStrategy, ReplicationStrategy, SchemaLoader }
 import com.pagerduty.eris.serializers._
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.{Matchers, FreeSpec}
+import org.scalatest.{ Matchers, FreeSpec }
 import scala.collection.JavaConversions._
-
 
 class SchemaLoaderSpec extends FreeSpec with Matchers with MockFactory {
   val tpePref = "org.apache.cassandra.db.marshal"
@@ -92,11 +91,10 @@ class SchemaLoaderSpec extends FreeSpec with Matchers with MockFactory {
 
     val keyspaceName = "SchemaLoaderSpec1"
     def loadSchema(
-        replicationStrategies: Map[String, ReplicationStrategy] =
-          Map.empty.withDefaultValue(SimpleStrategy(1))
-      )(
-        factory: Keyspace => ColumnFamilyModel[_, _, _])
-    : Map[String, String] = {
+      replicationStrategies: Map[String, ReplicationStrategy] = Map.empty.withDefaultValue(SimpleStrategy(1))
+    )(
+      factory: Keyspace => ColumnFamilyModel[_, _, _]
+    ): Map[String, String] = {
       val cluster = TestClusterCtx.cluster
       val keyspace = cluster.getKeyspace(keyspaceName)
       val cfModel = factory(keyspace)
@@ -118,7 +116,8 @@ class SchemaLoaderSpec extends FreeSpec with Matchers with MockFactory {
       val cluster = TestClusterCtx.cluster
       val keyspace = cluster.getKeyspace(keyspaceName)
       val cfModel = ColumnFamilyModel[String, String, String](
-        keyspace, "columnFamily1", columns = columns.toSet)
+        keyspace, "columnFamily1", columns = columns.toSet
+      )
       val colDefList = cfModel.columnFamilyDef(cluster).getColumnDefinitionList
       val colProps = for (colDef <- colDefList) yield {
         colDef.getName -> (colDef.hasIndex, colDef.getValidationClass)
@@ -139,7 +138,8 @@ class SchemaLoaderSpec extends FreeSpec with Matchers with MockFactory {
         ks => ColumnFamilyModel[String, String, String](ks, "columnFamily1")
       )
       props should contain(
-        "strategy_class" -> "org.apache.cassandra.locator.NetworkTopologyStrategy")
+        "strategy_class" -> "org.apache.cassandra.locator.NetworkTopologyStrategy"
+      )
       props should contain("strategy_options.DC1" -> "1")
       props should contain("strategy_options.DC2" -> "2")
     }
@@ -150,7 +150,8 @@ class SchemaLoaderSpec extends FreeSpec with Matchers with MockFactory {
           new ColumnFamilySettings(
             rowKeyValidatorOverride = Some(ValidatorClass[Int]),
             colNameValidatorOverride = Some(ValidatorClass[Long]),
-            colValueValidatorOverride= Some(ValidatorClass[BigInt])))
+            colValueValidatorOverride = Some(ValidatorClass[BigInt])
+          ))
       }
       props should contain(s"key_validation_class" -> s"$tpePref.Int32Type")
       props should contain(s"comparator_type" -> s"$tpePref.LongType")
