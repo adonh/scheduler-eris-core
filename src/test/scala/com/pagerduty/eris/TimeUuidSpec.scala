@@ -30,8 +30,7 @@ package com.pagerduty.eris.core
 import java.nio.ByteBuffer
 
 import com.pagerduty.eris.TimeUuid
-import org.scalatest.{Matchers, FreeSpec}
-
+import org.scalatest.{ Matchers, FreeSpec }
 
 class TimeUuidSpec extends FreeSpec with Matchers {
   "TimeUuid should" - {
