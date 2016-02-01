@@ -27,7 +27,7 @@
 
 package com.pagerduty.eris
 
-import com.netflix.astyanax.{Cluster, Serializer}
+import com.netflix.astyanax.{ Cluster, Serializer }
 import com.netflix.astyanax.ddl.ColumnDefinition
 import com.pagerduty.eris.serializers.ValidatorClass
 
@@ -67,8 +67,7 @@ object ColumnModel {
    * @tparam T option type parameter to guide implicit serializer inference
    * @return a new column declaration
    */
-  def apply[T](name: String, indexed: Boolean = false)(implicit serializer: Serializer[T])
-  : ColumnModel = {
+  def apply[T](name: String, indexed: Boolean = false)(implicit serializer: Serializer[T]): ColumnModel = {
     ColumnModel(name, indexed, ValidatorClass(serializer))
   }
 }

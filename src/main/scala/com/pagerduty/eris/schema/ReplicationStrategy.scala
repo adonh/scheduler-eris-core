@@ -52,7 +52,8 @@ case class SimpleStrategy(replicationFactor: Int) extends ReplicationStrategy {
  */
 case class NetworkTopologyStrategy(topology: (String, Int)*) extends ReplicationStrategy {
   val strategyClass = "org.apache.cassandra.locator.NetworkTopologyStrategy"
-  val options = topology.map { case (datacenterName, numberOfReplicas) =>
-    datacenterName -> numberOfReplicas.toString
+  val options = topology.map {
+    case (datacenterName, numberOfReplicas) =>
+      datacenterName -> numberOfReplicas.toString
   }.toMap
 }

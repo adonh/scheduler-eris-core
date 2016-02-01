@@ -31,10 +31,9 @@ import java.nio.ByteBuffer
 
 import com.netflix.astyanax.Serializer
 import com.netflix.astyanax.model.Composite
-import com.netflix.astyanax.serializers.{AbstractSerializer, ComparatorType}
+import com.netflix.astyanax.serializers.{ AbstractSerializer, ComparatorType }
 
 import scala.collection.JavaConversions._
-
 
 /**
  * Allows to serialize tuples. Do not extend this class directly, use InferredSerializer instead:
@@ -44,10 +43,10 @@ import scala.collection.JavaConversions._
  * }}}
  */
 class ProductSerializer[P <: Product](
-    protected val serializers: IndexedSeq[Serializer[Any]],
-    protected val factory: IndexedSeq[Any] => Product)
-  extends AbstractSerializer[P] with ValidatorClass
-{
+  protected val serializers: IndexedSeq[Serializer[Any]],
+  protected val factory: IndexedSeq[Any] => Product
+)
+    extends AbstractSerializer[P] with ValidatorClass {
   private[this] val serializerInjector: java.util.List[Serializer[_]] = serializers
 
   protected def mkCompositeValidatorClass(validatorClasses: Seq[String]): String = {

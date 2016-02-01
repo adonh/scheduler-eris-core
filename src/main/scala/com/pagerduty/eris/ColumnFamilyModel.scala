@@ -27,11 +27,10 @@
 
 package com.pagerduty.eris
 
-import com.netflix.astyanax.ddl.{ColumnFamilyDefinition, ColumnDefinition}
+import com.netflix.astyanax.ddl.{ ColumnFamilyDefinition, ColumnDefinition }
 import com.netflix.astyanax.model.ColumnFamily
-import com.netflix.astyanax.{Cluster, Keyspace, Serializer}
+import com.netflix.astyanax.{ Cluster, Keyspace, Serializer }
 import com.pagerduty.eris.serializers.ValidatorClass
-
 
 /**
  * Keeps column family and related data together.
@@ -40,8 +39,8 @@ class ColumnFamilyModel[RowKey, ColName, ColValue] protected (
     val keyspace: Keyspace,
     val columnFamily: ColumnFamily[RowKey, ColName],
     protected val settings: ColumnFamilySettings,
-    protected val columns: Set[ColumnModel])
-{
+    protected val columns: Set[ColumnModel]
+) {
   def name: String = columnFamily.getName
 
   def rowKeySerializer: Serializer[RowKey] = columnFamily.getKeySerializer
@@ -61,11 +60,14 @@ class ColumnFamilyModel[RowKey, ColName, ColValue] protected (
       .setKeyspace(keyspace.getKeyspaceName)
       .setName(name)
       .setKeyValidationClass(
-        settings.rowKeyValidatorOverride.getOrElse(ValidatorClass(rowKeySerializer)))
+        settings.rowKeyValidatorOverride.getOrElse(ValidatorClass(rowKeySerializer))
+      )
       .setComparatorType(
-        settings.colNameValidatorOverride.getOrElse(ValidatorClass(colNameSerializer)))
+        settings.colNameValidatorOverride.getOrElse(ValidatorClass(colNameSerializer))
+      )
       .setDefaultValidationClass(
-        settings.colValueValidatorOverride.getOrElse(ValidatorClass(colValueSerializer)))
+        settings.colValueValidatorOverride.getOrElse(ValidatorClass(colValueSerializer))
+      )
 
     for (column <- columns) {
       columnFamilyDef.addColumnDefinition(column.columnDef(cluster))
@@ -97,20 +99,20 @@ object ColumnFamilyModel {
    * @return a new column model
    */
   def apply[RowKey, ColName, ColValue](
-      keyspace: Keyspace,
-      name: String,
-      settings: ColumnFamilySettings = new ColumnFamilySettings,
-      columns: Set[ColumnModel] = Set.empty
-    )(implicit
-      rowKeySerializer: Serializer[RowKey],
-      colNameSerializer: Serializer[ColName],
-      colValueSerializer: Serializer[ColValue])
-  : ColumnFamilyModel[RowKey, ColName, ColValue] =
-  {
-    val driverColumnFamily = new com.netflix.astyanax.model.ColumnFamily[RowKey, ColName](
-      name,
-      rowKeySerializer, colNameSerializer, colValueSerializer)
+    keyspace: Keyspace,
+    name: String,
+    settings: ColumnFamilySettings = new ColumnFamilySettings,
+    columns: Set[ColumnModel] = Set.empty
+  )(implicit
+    rowKeySerializer: Serializer[RowKey],
+    colNameSerializer: Serializer[ColName],
+    colValueSerializer: Serializer[ColValue]): ColumnFamilyModel[RowKey, ColName, ColValue] =
+    {
+      val driverColumnFamily = new com.netflix.astyanax.model.ColumnFamily[RowKey, ColName](
+        name,
+        rowKeySerializer, colNameSerializer, colValueSerializer
+      )
 
-    new ColumnFamilyModel(keyspace, driverColumnFamily, settings, columns)
-  }
+      new ColumnFamilyModel(keyspace, driverColumnFamily, settings, columns)
+    }
 }

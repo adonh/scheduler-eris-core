@@ -30,8 +30,7 @@ package com.pagerduty.eris.serializers
 import java.nio.ByteBuffer
 
 import com.netflix.astyanax.Serializer
-import com.netflix.astyanax.serializers.{AbstractSerializer, ComparatorType}
-
+import com.netflix.astyanax.serializers.{ AbstractSerializer, ComparatorType }
 
 /**
  * Generic proxy serializer that infers the underlying serializer based on type signature.
@@ -43,8 +42,7 @@ import com.netflix.astyanax.serializers.{AbstractSerializer, ComparatorType}
  * }}}
  */
 class InferredSerializer[T](implicit protected val serializer: Serializer[T])
-  extends AbstractSerializer[T] with ValidatorClass
-{
+    extends AbstractSerializer[T] with ValidatorClass {
   def toByteBuffer(obj: T): ByteBuffer = serializer.toByteBuffer(obj)
   def fromByteBuffer(bytes: ByteBuffer): T = serializer.fromByteBuffer(bytes)
   override def getComparatorType(): ComparatorType = serializer.getComparatorType

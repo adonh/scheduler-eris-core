@@ -43,9 +43,8 @@ case class TimeUuid(val value: UUID) {
     (value.timestamp() - TimeUuid.UuidEpochOffsetIn100Ns) / 10000
   }
 
-  override def toString() :String = value.toString()
+  override def toString(): String = value.toString()
 }
-
 
 object TimeUuid {
 
@@ -57,17 +56,17 @@ object TimeUuid {
   /**
    * Generates a unique UUID.
    */
-  def apply() :TimeUuid = new TimeUuid(new UUID(UUIDGen.newTime(), UUIDGen.getClockSeqAndNode()))
+  def apply(): TimeUuid = new TimeUuid(new UUID(UUIDGen.newTime(), UUIDGen.getClockSeqAndNode()))
 
   /**
    * Converts TimeUuid string representation into a TimeUuid object.
    */
-  def apply(uuid: String) :TimeUuid = new TimeUuid(UUID.fromString(uuid))
+  def apply(uuid: String): TimeUuid = new TimeUuid(UUID.fromString(uuid))
 
   /**
    * Returns non unique id that can be used as a bound in ranged TimeUuid queries.
    */
-  def nonUniqueLowerBound(timeStamp: Long) :TimeUuid = {
+  def nonUniqueLowerBound(timeStamp: Long): TimeUuid = {
     require(timeStamp >= MinTimeStamp, "'timeStamp' cannot be less than MinBound.timeStamp")
     require(timeStamp <= MaxTimeStamp, "'timeStamp' cannot be greater than MaxBound.timeStamp")
 
@@ -75,9 +74,9 @@ object TimeUuid {
     val uuidTime = timeStamp * 10000 + TimeUuid.UuidEpochOffsetIn100Ns
 
     val timeLow = (uuidTime << 32) // & 0xFFFFFFFF00000000L
-    val timeMid = (uuidTime >> 16)    & 0x00000000FFFF0000L
-    val version = 0x1000           // & 0x000000000000F000L
-    val timeHi  = (uuidTime >> 48)    & 0x0000000000000FFFL
+    val timeMid = (uuidTime >> 16) & 0x00000000FFFF0000L
+    val version = 0x1000 // & 0x000000000000F000L
+    val timeHi = (uuidTime >> 48) & 0x0000000000000FFFL
 
     val uuidMostSignificantBits = timeLow | timeMid | version | timeHi
 

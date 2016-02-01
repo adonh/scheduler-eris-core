@@ -43,19 +43,20 @@ class SchemaLoader(
     /** A set of all column family definitions. */
     val columnFamilyDefs: Set[ColumnFamilyDefinition],
     /** A map of keyspace names to corresponding replication strategy. */
-    val replicationStrategies: Map[String, ReplicationStrategy] =
-      Map.empty.withDefaultValue(SimpleStrategy(1)))
-{
+    val replicationStrategies: Map[String, ReplicationStrategy] = Map.empty.withDefaultValue(SimpleStrategy(1))
+) {
   private val log = LoggerFactory.getLogger(classOf[SchemaLoader])
 
   private case class KeyspaceSettings(
     name: String,
     columnFamilyDefs: Set[ColumnFamilyDefinition],
-    replicationStrategy: ReplicationStrategy)
+    replicationStrategy: ReplicationStrategy
+  )
 
   private val keyspaces: Set[KeyspaceSettings] = {
-    columnFamilyDefs.groupBy(_.getKeyspace).map { case (ksName, cfDefs) =>
-      KeyspaceSettings(ksName, cfDefs, replicationStrategies(ksName))
+    columnFamilyDefs.groupBy(_.getKeyspace).map {
+      case (ksName, cfDefs) =>
+        KeyspaceSettings(ksName, cfDefs, replicationStrategies(ksName))
     }.toSet
   }
 
@@ -88,7 +89,6 @@ class SchemaLoader(
   }
 }
 
-
 object SchemaLoader {
 
   /**
@@ -102,10 +102,9 @@ object SchemaLoader {
     log.warn(s"Dropping keyspace '$keyspaceName'.")
     try {
       cluster.dropKeyspace(keyspaceName)
-    }
-    catch {
+    } catch {
       case NonFatal(_) =>
-        log.warn( s"Unable to drop keyspace '$keyspaceName'.")
+        log.warn(s"Unable to drop keyspace '$keyspaceName'.")
     }
   }
 
@@ -119,8 +118,9 @@ object SchemaLoader {
   def describeKeyspace(cluster: Cluster, keyspaceName: String): Option[String] = {
     Option(cluster.describeKeyspace(keyspaceName)).map { result =>
       val description = result.getProperties.toMap
-      keyspaceName + ":\n" + description.map { case (key, value) =>
-        s"  $key = $value"
+      keyspaceName + ":\n" + description.map {
+        case (key, value) =>
+          s"  $key = $value"
       }.toSeq.sorted.mkString("\n")
     }
   }

@@ -31,8 +31,7 @@ import com.netflix.astyanax.connectionpool.ConnectionPoolMonitor
 import com.netflix.astyanax.connectionpool.impl.ConnectionPoolConfigurationImpl
 import com.netflix.astyanax.impl.AstyanaxConfigurationImpl
 import com.netflix.astyanax.thrift.ThriftFamilyFactory
-import com.netflix.astyanax.{AstyanaxContext, Cluster}
-
+import com.netflix.astyanax.{ AstyanaxContext, Cluster }
 
 /**
  * Cluster context combines all the Astyanax configuration as well as provides
@@ -76,8 +75,8 @@ class ClusterCtx(
      *   new CountingConnectionPoolMonitor()
      * }}}.
      */
-    protected val connectionPoolMonitor: ConnectionPoolMonitor)
-{
+    protected val connectionPoolMonitor: ConnectionPoolMonitor
+) {
   /**
    * Combines all the configs to create AstyanaxContext. Can be overridden for
    * further customization.
