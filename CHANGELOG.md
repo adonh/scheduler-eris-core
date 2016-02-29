@@ -1,3 +1,8 @@
+2.0.0
+========
+
+  * Make TestClusterCtx a class so it's more flexible. 
+
 1.5.1
 ========
 

@@ -35,14 +35,19 @@ import com.netflix.astyanax.connectionpool.impl.{
 import com.netflix.astyanax.impl.AstyanaxConfigurationImpl
 
 /**
- * Cluster context used for testing.
+ * Cluster context used for testing. By default, this will configure a pool that
+ * points to localhost/9160 but that can be overridden in the constructor arguments.
  */
-object TestClusterCtx extends ClusterCtx(
+class TestClusterCtx(
+  host: String = "localhost",
+  port: Int = 9160
+) extends ClusterCtx(
+
   clusterName = "CassCluster",
   astyanaxConfig = new AstyanaxConfigurationImpl()
     .setDiscoveryType(NodeDiscoveryType.RING_DESCRIBE),
   connectionPoolConfig = new ConnectionPoolConfigurationImpl("CassConnectionPool")
-    .setSeeds("localhost:9160")
-    .setPort(9160),
+    .setSeeds(s"${host}:${port}")
+    .setPort(port),
   connectionPoolMonitor = new CountingConnectionPoolMonitor()
 )

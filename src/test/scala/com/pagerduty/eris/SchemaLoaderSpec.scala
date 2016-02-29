@@ -60,7 +60,7 @@ class SchemaLoaderSpec extends FreeSpec with Matchers with MockFactory {
     }
 
     "load simple schema correctly" in {
-      val cluster = TestClusterCtx.cluster
+      val cluster = (new TestClusterCtx).cluster
       val keyspace1 = cluster.getKeyspace("SchemaLoaderSpec1")
       val cf1 = ColumnFamilyModel[Int, Long, BigInt](keyspace1, "columnFamily1")
       val keyspace2 = cluster.getKeyspace("SchemaLoaderSpec2")
@@ -95,7 +95,7 @@ class SchemaLoaderSpec extends FreeSpec with Matchers with MockFactory {
     )(
       factory: Keyspace => ColumnFamilyModel[_, _, _]
     ): Map[String, String] = {
-      val cluster = TestClusterCtx.cluster
+      val cluster = (new TestClusterCtx).cluster
       val keyspace = cluster.getKeyspace(keyspaceName)
       val cfModel = factory(keyspace)
       val cfDefs = Set(cfModel).map(_.columnFamilyDef(cluster))
@@ -113,7 +113,7 @@ class SchemaLoaderSpec extends FreeSpec with Matchers with MockFactory {
     }
 
     def colProps(columns: ColumnModel*): Map[String, (Boolean, String)] = {
-      val cluster = TestClusterCtx.cluster
+      val cluster = (new TestClusterCtx).cluster
       val keyspace = cluster.getKeyspace(keyspaceName)
       val cfModel = ColumnFamilyModel[String, String, String](
         keyspace, "columnFamily1", columns = columns.toSet
