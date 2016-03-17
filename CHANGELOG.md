@@ -1,3 +1,8 @@
+2.0.1
+=====
+
+  * Removed and cleaned up transitive dependencies that pulled in logging implementations and JUnit.
+
 2.0.0
 ========
 
