@@ -1,3 +1,8 @@
+2.0.2
+=====
+
+  * Separated unit and integration tests
+
 2.0.1
 =====
 
