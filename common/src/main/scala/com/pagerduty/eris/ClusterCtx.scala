@@ -51,7 +51,6 @@ import com.netflix.astyanax.{ AstyanaxContext, Cluster }
  * val cluster = clusterCtx.cluster
  * }}}
  */
-
 class ClusterCtx(
     /**
      * Cluster name for logging and reporting purposes.

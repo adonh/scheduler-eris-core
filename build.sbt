@@ -9,6 +9,7 @@ fullClasspath in Test ++= update.value.select(configurationFilter("transient"))
 lazy val sharedSettings = Seq(
   organization := "com.pagerduty",
   scalaVersion := "2.10.4",
+  version := "2.0.3",
   crossScalaVersions := Seq("2.10.4", "2.11.7"),
   libraryDependencies ++= Seq(
     "com.netflix.astyanax" % "astyanax-cassandra" % "3.6.0",
@@ -20,16 +21,14 @@ lazy val sharedSettings = Seq(
 lazy val common = (project in file("common")).
   settings(sharedSettings: _*).
   settings(
-    name := "eris-core-common",
-    version := "1.0.0"
+    name := "eris-core-common"
   )
 
 lazy val testSupport = (project in file("test-support")).
   dependsOn(common).
   settings(sharedSettings: _*).
   settings(
-    name := "eris-core-test-support",
-    version := "1.0.0"
+    name := "eris-core-test-support"
   )
 
 lazy val root = (project in file(".")).
