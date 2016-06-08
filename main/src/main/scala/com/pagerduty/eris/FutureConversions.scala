@@ -29,7 +29,7 @@ package com.pagerduty.eris
 
 import com.google.common.util.concurrent.{ ListenableFuture, MoreExecutors }
 
-import scala.concurrent.{ Promise, Future }
+import scala.concurrent.{ Future, Promise }
 import scala.util.control.NonFatal
 
 /**
