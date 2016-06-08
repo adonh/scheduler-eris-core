@@ -1,16 +1,4 @@
-// Prevents logging configuration from being included in the test jar.
-mappings in (Test, packageBin) ~= { _.filterNot(_._2.endsWith("logback-test.xml")) }
-
-// Dependencies in this configuration are not exported.
-ivyConfigurations += config("transient").hide
-
-fullClasspath in Test ++= update.value.select(configurationFilter("transient"))
-
-lazy val sharedSettings = Seq(
-  organization := "com.pagerduty",
-  scalaVersion := "2.10.4",
-  version := "2.0.4",
-  crossScalaVersions := Seq("2.10.4", "2.11.7"),
+lazy val publishSettings = Seq(
   bintrayOrganization := Some("pagerduty"),
   bintrayRepository := "oss-maven",
   licenses += ("BSD New", url("https://opensource.org/licenses/BSD-3-Clause")),
@@ -27,7 +15,14 @@ lazy val sharedSettings = Seq(
           <name>Aleksey Nikiforov</name>
           <url>https://github.com/lexn82</url>
         </developer>
-      </developers>),
+      </developers>)
+)
+
+lazy val sharedSettings = Seq(
+  organization := "com.pagerduty",
+  scalaVersion := "2.10.4",
+  version := "2.0.4",
+  crossScalaVersions := Seq("2.10.4", "2.11.7"),
   libraryDependencies ++= Seq(
     "com.netflix.astyanax" % "astyanax-cassandra" % "3.6.0",
     "com.netflix.astyanax" % "astyanax-core" % "3.6.0",
@@ -36,7 +31,7 @@ lazy val sharedSettings = Seq(
 )
 lazy val tests = (project in file("tests")).
   dependsOn(testSupport, main).
-  configs(IntegrationTest extend (Test)).
+  configs(IntegrationTest extend Test).
   settings(Defaults.itSettings: _*).
   settings(sharedSettings: _*).
   settings(
@@ -52,6 +47,7 @@ lazy val tests = (project in file("tests")).
 lazy val testSupport = (project in file("test-support")).
   dependsOn(main).
   settings(sharedSettings: _*).
+  settings(publishSettings: _*).
   settings(
     name := "eris-core-test-support"
   )
@@ -59,6 +55,7 @@ lazy val testSupport = (project in file("test-support")).
 
 lazy val main = (project in file("main")).
   settings(sharedSettings: _*).
+  settings(publishSettings: _*).
   settings(
     name := "eris-core",
     libraryDependencies ++= Seq(
