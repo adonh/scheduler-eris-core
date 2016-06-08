@@ -27,8 +27,9 @@
 
 package com.pagerduty.eris
 
-import com.eaio.uuid.UUIDGen
 import java.util.UUID
+
+import com.eaio.uuid.UUIDGen
 
 /**
  * TimeUuid represents a subset of UUIDs that preserve temporal order. Since we cannot subclass

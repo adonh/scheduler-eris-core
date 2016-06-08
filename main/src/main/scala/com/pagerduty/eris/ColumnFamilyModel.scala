@@ -27,7 +27,7 @@
 
 package com.pagerduty.eris
 
-import com.netflix.astyanax.ddl.{ ColumnFamilyDefinition, ColumnDefinition }
+import com.netflix.astyanax.ddl.ColumnFamilyDefinition
 import com.netflix.astyanax.model.ColumnFamily
 import com.netflix.astyanax.{ Cluster, Keyspace, Serializer }
 import com.pagerduty.eris.serializers.ValidatorClass

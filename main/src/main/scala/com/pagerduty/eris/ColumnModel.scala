@@ -27,8 +27,8 @@
 
 package com.pagerduty.eris
 
-import com.netflix.astyanax.{ Cluster, Serializer }
 import com.netflix.astyanax.ddl.ColumnDefinition
+import com.netflix.astyanax.{ Cluster, Serializer }
 import com.pagerduty.eris.serializers.ValidatorClass
 
 /**

@@ -1,10 +1,9 @@
 package com.pagerduty.eris
 
 import com.netflix.astyanax.Keyspace
-import com.pagerduty.eris.schema.{ReplicationStrategy, NetworkTopologyStrategy, SimpleStrategy, SchemaLoader}
-import com.pagerduty.eris.serializers.ValidatorClass
-import com.pagerduty.eris.serializers._
-import org.scalatest.{ FreeSpec, Matchers }
+import com.pagerduty.eris.schema.{NetworkTopologyStrategy, ReplicationStrategy, SchemaLoader, SimpleStrategy}
+import com.pagerduty.eris.serializers.{ValidatorClass, _}
+import org.scalatest.{FreeSpec, Matchers}
 
 import scala.collection.JavaConversions._
 
