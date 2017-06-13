@@ -30,6 +30,7 @@ lazy val sharedSettings = Seq(
 )
 lazy val tests = (project in file("tests"))
   .dependsOn(testSupport, main)
+  .enablePlugins(ScalafmtPlugin)
   .configs(IntegrationTest extend Test)
   .settings(Defaults.itSettings: _*)
   .settings(sharedSettings: _*)
@@ -46,6 +47,7 @@ lazy val tests = (project in file("tests"))
 
 lazy val testSupport = (project in file("test-support"))
   .dependsOn(main)
+  .enablePlugins(ScalafmtPlugin)
   .settings(sharedSettings: _*)
   .settings(publishSettings: _*)
   .settings(
@@ -53,6 +55,7 @@ lazy val testSupport = (project in file("test-support"))
   )
 
 lazy val main = (project in file("main"))
+  .enablePlugins(ScalafmtPlugin)
   .settings(sharedSettings: _*)
   .settings(publishSettings: _*)
   .settings(

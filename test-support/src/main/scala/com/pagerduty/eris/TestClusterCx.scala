@@ -28,26 +28,20 @@
 package com.pagerduty.eris
 
 import com.netflix.astyanax.connectionpool.NodeDiscoveryType
-import com.netflix.astyanax.connectionpool.impl.{
-  ConnectionPoolConfigurationImpl,
-  CountingConnectionPoolMonitor
-}
+import com.netflix.astyanax.connectionpool.impl.{ConnectionPoolConfigurationImpl, CountingConnectionPoolMonitor}
 import com.netflix.astyanax.impl.AstyanaxConfigurationImpl
 
 /**
- * Cluster context used for testing. By default, this will configure a pool that
- * points to localhost/9160 but that can be overridden in the constructor arguments.
- */
-class TestClusterCtx(
-  host: String = "localhost",
-  port: Int = 9160
-) extends ClusterCtx(
-
-  clusterName = "CassCluster",
-  astyanaxConfig = new AstyanaxConfigurationImpl()
-    .setDiscoveryType(NodeDiscoveryType.RING_DESCRIBE),
-  connectionPoolConfig = new ConnectionPoolConfigurationImpl("CassConnectionPool")
-    .setSeeds(s"${host}:${port}")
-    .setPort(port),
-  connectionPoolMonitor = new CountingConnectionPoolMonitor()
-)
+  * Cluster context used for testing. By default, this will configure a pool that
+  * points to localhost/9160 but that can be overridden in the constructor arguments.
+  */
+class TestClusterCtx(host: String = "localhost", port: Int = 9160)
+    extends ClusterCtx(
+      clusterName = "CassCluster",
+      astyanaxConfig = new AstyanaxConfigurationImpl()
+        .setDiscoveryType(NodeDiscoveryType.RING_DESCRIBE),
+      connectionPoolConfig = new ConnectionPoolConfigurationImpl("CassConnectionPool")
+        .setSeeds(s"${host}:${port}")
+        .setPort(port),
+      connectionPoolMonitor = new CountingConnectionPoolMonitor()
+    )

@@ -32,14 +32,14 @@ import java.util.UUID
 import com.eaio.uuid.UUIDGen
 
 /**
- * TimeUuid represents a subset of UUIDs that preserve temporal order. Since we cannot subclass
- * UUID directly, we use a wrapper.
- */
+  * TimeUuid represents a subset of UUIDs that preserve temporal order. Since we cannot subclass
+  * UUID directly, we use a wrapper.
+  */
 case class TimeUuid(val value: UUID) {
 
   /**
-   * Time stamp when this UUID was created.
-   */
+    * Time stamp when this UUID was created.
+    */
   def timeStamp: Long = {
     (value.timestamp() - TimeUuid.UuidEpochOffsetIn100Ns) / 10000
   }
@@ -50,23 +50,23 @@ case class TimeUuid(val value: UUID) {
 object TimeUuid {
 
   /**
-   * UUID time epoch starts in 1582... no joke.
-   */
+    * UUID time epoch starts in 1582... no joke.
+    */
   private val UuidEpochOffsetIn100Ns = 0x01B21DD213814000L
 
   /**
-   * Generates a unique UUID.
-   */
+    * Generates a unique UUID.
+    */
   def apply(): TimeUuid = new TimeUuid(new UUID(UUIDGen.newTime(), UUIDGen.getClockSeqAndNode()))
 
   /**
-   * Converts TimeUuid string representation into a TimeUuid object.
-   */
+    * Converts TimeUuid string representation into a TimeUuid object.
+    */
   def apply(uuid: String): TimeUuid = new TimeUuid(UUID.fromString(uuid))
 
   /**
-   * Returns non unique id that can be used as a bound in ranged TimeUuid queries.
-   */
+    * Returns non unique id that can be used as a bound in ranged TimeUuid queries.
+    */
   def nonUniqueLowerBound(timeStamp: Long): TimeUuid = {
     require(timeStamp >= MinTimeStamp, "'timeStamp' cannot be less than MinBound.timeStamp")
     require(timeStamp <= MaxTimeStamp, "'timeStamp' cannot be greater than MaxBound.timeStamp")
@@ -89,13 +89,13 @@ object TimeUuid {
   }
 
   /**
-   * Minimum TimeUuid value, useful when doing ranged queries.
-   */
+    * Minimum TimeUuid value, useful when doing ranged queries.
+    */
   val MinBound = TimeUuid("00000000-0000-1000-8080-808080808080")
 
   /**
-   * Maximum TimeUuid value, useful when doing ranged queries.
-   */
+    * Maximum TimeUuid value, useful when doing ranged queries.
+    */
   val MaxBound = TimeUuid("FFFFFFFF-FFFF-1FFF-7F7F-7F7F7F7F7F7F")
 
   private val MinTimeStamp = MinBound.timeStamp

@@ -31,56 +31,53 @@ import com.netflix.astyanax.connectionpool.ConnectionPoolMonitor
 import com.netflix.astyanax.connectionpool.impl.ConnectionPoolConfigurationImpl
 import com.netflix.astyanax.impl.AstyanaxConfigurationImpl
 import com.netflix.astyanax.thrift.ThriftFamilyFactory
-import com.netflix.astyanax.{ AstyanaxContext, Cluster }
+import com.netflix.astyanax.{AstyanaxContext, Cluster}
 
 /**
- * Cluster context combines all the Astyanax configuration as well as provides
- * startup() and shutdown() methods.
- *
- * The following example will help you setup connection to a locally running cassandra instance:
- * {{{
- * val clusterCtx = new ClusterCtx(
- *   clusterName = "CassCluster",
- *   astyanaxConfig = new AstyanaxConfigurationImpl()
- *     .setDiscoveryType(NodeDiscoveryType.RING_DESCRIBE),
- *   connectionPoolConfig = new ConnectionPoolConfigurationImpl("CassConnectionPool")
- *     .setSeeds("localhost:9160")
- *     .setPort(9160),
- *   connectionPoolMonitor = new CountingConnectionPoolMonitor()
- * )
- * val cluster = clusterCtx.cluster
- * }}}
- */
+  * Cluster context combines all the Astyanax configuration as well as provides
+  * startup() and shutdown() methods.
+  *
+  * The following example will help you setup connection to a locally running cassandra instance:
+  * {{{
+  * val clusterCtx = new ClusterCtx(
+  *   clusterName = "CassCluster",
+  *   astyanaxConfig = new AstyanaxConfigurationImpl()
+  *     .setDiscoveryType(NodeDiscoveryType.RING_DESCRIBE),
+  *   connectionPoolConfig = new ConnectionPoolConfigurationImpl("CassConnectionPool")
+  *     .setSeeds("localhost:9160")
+  *     .setPort(9160),
+  *   connectionPoolMonitor = new CountingConnectionPoolMonitor()
+  * )
+  * val cluster = clusterCtx.cluster
+  * }}}
+  */
 class ClusterCtx(
     /**
-     * Cluster name for logging and reporting purposes.
-     */
+      * Cluster name for logging and reporting purposes.
+      */
     val clusterName: String,
-
     /**
-     * See:
-     * https://github.com/Netflix/astyanax/blob/master/astyanax-cassandra/src/main/java/com/netflix/astyanax/AstyanaxConfiguration.java
-     */
+      * See:
+      * https://github.com/Netflix/astyanax/blob/master/astyanax-cassandra/src/main/java/com/netflix/astyanax/AstyanaxConfiguration.java
+      */
     protected val astyanaxConfig: AstyanaxConfigurationImpl,
-
     /**
-     * See:
-     * https://github.com/Netflix/astyanax/blob/master/astyanax-core/src/main/java/com/netflix/astyanax/connectionpool/ConnectionPoolConfiguration.java
-     */
+      * See:
+      * https://github.com/Netflix/astyanax/blob/master/astyanax-core/src/main/java/com/netflix/astyanax/connectionpool/ConnectionPoolConfiguration.java
+      */
     protected val connectionPoolConfig: ConnectionPoolConfigurationImpl,
-
     /**
-     * Astyanax connection pool monitor. For example:
-     * {{{
-     *   new CountingConnectionPoolMonitor()
-     * }}}.
-     */
-    protected val connectionPoolMonitor: ConnectionPoolMonitor
-) {
+      * Astyanax connection pool monitor. For example:
+      * {{{
+      *   new CountingConnectionPoolMonitor()
+      * }}}.
+      */
+    protected val connectionPoolMonitor: ConnectionPoolMonitor) {
+
   /**
-   * Combines all the configs to create AstyanaxContext. Can be overridden for
-   * further customization.
-   */
+    * Combines all the configs to create AstyanaxContext. Can be overridden for
+    * further customization.
+    */
   protected lazy val astyanaxCtx: AstyanaxContext[Cluster] = {
     new AstyanaxContext.Builder()
       .forCluster(clusterName)
@@ -96,22 +93,22 @@ class ClusterCtx(
   }
 
   /**
-   * Starts the connection pool and other thread pools.
-   */
+    * Starts the connection pool and other thread pools.
+    */
   def start(): Unit = {
     startOnce
   }
 
   /**
-   * Gracefully shuts down all the thread pools.
-   */
+    * Gracefully shuts down all the thread pools.
+    */
   def shutdown(): Unit = {
     astyanaxCtx.shutdown()
   }
 
   /**
-   * Starts the Astyanax cluster and returns the running cluster instance.
-   */
+    * Starts the Astyanax cluster and returns the running cluster instance.
+    */
   lazy val cluster: Cluster = {
     start()
     astyanaxCtx.getClient()
