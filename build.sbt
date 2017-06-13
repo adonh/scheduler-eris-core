@@ -39,9 +39,7 @@ lazy val tests = (project in file("tests"))
     publishArtifact in Compile := false,
     publishArtifact in Test := false,
     libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % "3.0.1" % "it,test",
-      "org.scalamock" %% "scalamock-scalatest-support" % "3.2" % "it,test",
-      "org.scalacheck" %% "scalacheck" % "1.12.2" % "it,test"
+      "org.scalatest" %% "scalatest" % "3.0.1" % "it,test"
     )
   )
 
