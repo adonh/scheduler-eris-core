@@ -20,7 +20,6 @@ lazy val publishSettings = Seq(
 lazy val sharedSettings = Seq(
   organization := "com.pagerduty",
   scalaVersion := "2.11.11",
-  version := "2.0.4",
   crossScalaVersions := Seq("2.10.6", "2.11.11", "2.12.2"),
   libraryDependencies ++= Seq(
     "com.netflix.astyanax" % "astyanax-cassandra" % "3.6.0",
