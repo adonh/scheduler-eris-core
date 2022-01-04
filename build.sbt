@@ -19,8 +19,8 @@ lazy val publishSettings = Seq(
 
 lazy val sharedSettings = Seq(
   organization := "com.pagerduty",
-  scalaVersion := "2.11.11",
-  crossScalaVersions := Seq("2.10.6", "2.11.11", "2.12.2"),
+  scalaVersion := "2.11.12",
+  crossScalaVersions := Seq("2.10.6", "2.11.12", "2.12.2"),
   libraryDependencies ++= Seq(
     "com.netflix.astyanax" % "astyanax-cassandra" % "3.6.0",
     "com.netflix.astyanax" % "astyanax-core" % "3.6.0",
@@ -34,8 +34,6 @@ lazy val tests = (project in file("tests"))
   .settings(sharedSettings: _*)
   .settings(
     name := "eris-core-tests",
-    publishArtifact in Compile := false,
-    publishArtifact in Test := false,
     libraryDependencies ++= Seq(
       "org.scalatest" %% "scalatest" % "3.0.1" % "it,test"
     )

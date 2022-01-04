@@ -45,3 +45,4 @@ class TestClusterCtx(host: String = "localhost", port: Int = 9160)
         .setPort(port),
       connectionPoolMonitor = new CountingConnectionPoolMonitor()
     )
+object TestClusterCtx extends TestClusterCtx("localhost", 9160)
